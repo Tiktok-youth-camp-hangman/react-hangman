@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import Stand from './components/Stand';
 import WordHolder from './components/WordHolder';
-import WrongLettersHolder from './components/WrongLettersHolder';
+import WrongLetters from './components/WrongLetters';
 import Button from '@mui/material/Button'
 import TextField from "@mui/material/TextField";
 
 function App() {
-  const word = "serendipity"
+  const word = "serendipity";
+  const letters = word.split("");
 
   const defaultFormValue = "";
 
@@ -50,13 +51,16 @@ function App() {
 
   const [wordHolder, setWordHolder] = useState(null)
 
-  const [wrongLettersHolder, setWrongLettersHolder] =
+  const [wrongLetters, setWrongLetters] =
     useState(null)
   
   const [stand, setStand] = useState(null)
 
+  const [hasStarted, setHasStarted] = useState(false)
+
   const handleClick = () => {
-    setWordHolder(word)
+    setWordHolder(letters)
+    setHasStarted(true)
   }
 
   return (
@@ -65,8 +69,15 @@ function App() {
 
       <form
         onSubmit={handleSubmit}
+        style={{
+          marginBottom: "20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
       >
         <TextField
+          disabled={!hasStarted}
           error={formState.error}
           helperText={formState.helperText}
           id="guess-input"
@@ -77,14 +88,14 @@ function App() {
         />
         <Button
           type="submit"
-          disabled={formState.error}
+          disabled={formState.error || !hasStarted}
         >
           Guess
         </Button>
       </form>
 
-      <WordHolder wordHolder={wordHolder} />
-      <WrongLettersHolder wrongLetterHolder={wrongLettersHolder} />
+      <WordHolder letters={wordHolder} />
+      <WrongLetters wrongLetters={wrongLetters} />
       <Stand stand={stand} />
     </div>
     
