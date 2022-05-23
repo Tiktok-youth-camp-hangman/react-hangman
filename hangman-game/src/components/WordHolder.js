@@ -1,8 +1,9 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 
-const WordHolder = ({ letters }) => {
+const WordHolder = ({ letters, correctLetters }) => {
     if (letters === null) return (<div></div>);
+    //const newLetter = correctLetters[correctLetters.length - 1];
     return (
         <Box
             style={{
@@ -24,7 +25,10 @@ const WordHolder = ({ letters }) => {
                             }}
                             key={index}
                         >
-                            {letter}
+                            {(correctLetters.includes(letter))
+                                ? letter
+                                : ""
+                            }
                         </Box>)
                 })
             }

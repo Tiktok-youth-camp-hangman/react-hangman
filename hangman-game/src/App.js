@@ -39,9 +39,15 @@ function App() {
 
   const [guessedLetters, setGuessedLetters] =
     useState([]);
+  
+  const [correctLetters, setCorrectLetters] =
+    useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setFormValue("");
+    document.getElementById("guess-input").focus();
 
     if (!isLetter(formValue)) {
       setFormState({
@@ -54,7 +60,7 @@ function App() {
     if (guessedLetters.includes(formValue)) {
       setFormState({
         error: true,
-        helperText: "Already guessed this letter"
+        helperText: "Already guessed " + formValue
       });
       return;
     }
@@ -64,14 +70,14 @@ function App() {
     );
 
     if (letters.includes(formValue)) {
-      console.log("correct");
+      setCorrectLetters(
+        (prevArr) => [...prevArr, formValue]
+      )
     } else {
       setWrongLetters(
         (prevArr) => [...prevArr, formValue]
       );
     }
-
-    console.log(guessedLetters)
   }
 
   const [wordHolder, setWordHolder] = useState(null)
@@ -119,7 +125,10 @@ function App() {
         </Button>
       </form>
 
-      <WordHolder letters={wordHolder} />
+      <WordHolder
+        letters={wordHolder}
+        correctLetters={correctLetters}
+      />
       <WrongLetters wrongLetters={wrongLetters} />
       <Stand stand={stand} />
     </div>
