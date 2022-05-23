@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Stand = () => {
+const Stand = ({stand}) => {
   return (
-    <div>Stand</div>
+      <div>{ stand }</div>
   )
 }
 
