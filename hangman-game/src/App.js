@@ -37,8 +37,12 @@ function App() {
     }
   }
 
+  const [guessedLetters, setGuessedLetters] =
+    useState([]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!isLetter(formValue)) {
       setFormState({
         error: true,
@@ -46,13 +50,34 @@ function App() {
       });
       return;
     }
-    console.log(formValue)
+
+    if (guessedLetters.includes(formValue)) {
+      setFormState({
+        error: true,
+        helperText: "Already guessed this letter"
+      });
+      return;
+    }
+
+    setGuessedLetters(
+      (prevArr) => [...prevArr, formValue]
+    );
+
+    if (letters.includes(formValue)) {
+      console.log("correct");
+    } else {
+      setWrongLetters(
+        (prevArr) => [...prevArr, formValue]
+      );
+    }
+
+    console.log(guessedLetters)
   }
 
   const [wordHolder, setWordHolder] = useState(null)
 
   const [wrongLetters, setWrongLetters] =
-    useState(null)
+    useState([])
   
   const [stand, setStand] = useState(null)
 

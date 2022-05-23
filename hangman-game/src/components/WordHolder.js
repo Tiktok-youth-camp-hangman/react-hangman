@@ -2,7 +2,6 @@ import React from 'react'
 import Box from '@mui/material/Box'
 
 const WordHolder = ({ letters }) => {
-    console.log(letters)
     if (letters === null) return (<div></div>);
     return (
         <Box
