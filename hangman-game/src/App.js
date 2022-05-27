@@ -6,6 +6,8 @@ import WrongLetters from './components/WrongLetters';
 import Button from '@mui/material/Button'
 import TextField from "@mui/material/TextField";
 import Animals from "./words/Animals"
+import Foods from "./words/Foods"
+import RandomWords from "./words/RandomWords"
 import Keyboard from './components/Keyboard';
 import EndgameMsg from './components/EndgameMsg';
 
@@ -15,9 +17,42 @@ function App() {
   const WIN = "win";
   const LOSE = "lose";
 
-  const words = Animals;
-  const word = words[1];
-  const letters = word.split('');
+  const ANIMAL = "animals";
+  const FOOD = "foods";
+  const RANDOM = "randome";
+
+  const [word, setWord] = useState('');
+  const [letters, setLetters] = useState([])
+
+  const selectWord = (library) => {
+    const num = Math.floor(Math.random() * library.length);
+    const selectedWord = library[num].toLowerCase();
+    console.log(selectedWord);
+    return selectedWord;
+  }
+
+  const handleClick = (category) => {
+    console.log(category)
+    var newWord = ''
+    switch (category) {
+      case ANIMAL:
+        newWord = selectWord(Animals);
+        setWord(newWord);
+        break;
+      case FOOD:
+        newWord = selectWord(Foods)
+        setWord(newWord);
+        break;
+      default:
+        newWord = selectWord(RandomWords)
+        setWord(newWord);
+        break;
+    }
+    const newLetters = newWord.split('');
+    setLetters(newLetters)
+    setWordHolder(newLetters);
+    setGameState(START);
+  }
 
   const maxWrong = 7;
   const [mistakes, setMistakes] = useState(0);
@@ -40,11 +75,6 @@ function App() {
   const [visibilities, setVisibilities] = useState(defaultVisibilities)
 
   const [gameResult, setGameResult] = useState(null);
-
-  const handleClick = () => {
-    setWordHolder(letters);
-    setGameState(START);
-  }
 
   // var stand = document.getElementById('stand');
   // var head = document.getElementById('head');//mans face
@@ -91,7 +121,15 @@ function App() {
 
   switch (gameState) {
     case PRESTART:
-      return (<Header handleClick={() => handleClick()} />)
+      return (
+        <div>
+          <Header />
+          <Button onClick={() => handleClick(ANIMAL)}>Animal</Button>
+          <Button onClick={() => handleClick(FOOD)}>Food</Button>
+          <Button onClick={() => handleClick(RANDOM)}>Random</Button>
+        </div>
+        
+      )
     
     case START:
       return (
@@ -99,6 +137,7 @@ function App() {
           <Keyboard handleGuess={handleKeyboard} guessedLetters={guessedLetters} />
 
           <WordHolder
+            word={word}
             letters={wordHolder}
             correctLetters={correctLetters}
           />

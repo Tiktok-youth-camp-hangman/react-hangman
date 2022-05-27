@@ -1,8 +1,7 @@
 import React from 'react'
-import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 
-const Header = ({handleClick}) => {
+const Header = () => {
   return (
       <Box
           style={{
@@ -13,29 +12,8 @@ const Header = ({handleClick}) => {
               marginBottom: "20px"
           }}
       >
-          <h1>Hangman</h1>
+          <h1>Welcom to Hangman</h1>
           <p>Are you ready to be hung?</p>
-          <Box>
-        <Button
-              variant="contained"
-              style={{
-                  textTransform: 'none'
-              }}
-              onClick={handleClick}
-          >
-              Yes! Let's go!
-          </Button>
-          <Button
-                variant="contained"
-                style={{
-                    textTransform: 'none'
-                }}
-                onClick={handleClick}
-          >
-              Uh I guess so...
-          </Button>
-          </Box>
-          
       </Box>
   )
 }

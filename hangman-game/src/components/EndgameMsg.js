@@ -3,6 +3,8 @@ import RestartButton from './RestartButton';
 
 const EndgameMsg = ({ letters, correctLetters, gameResult, setGameResult, WIN, handleRestart }) => {
 
+    if (letters.length === 0) return;
+    
     function setsAreEqual(a, b) {
         if (a.size !== b.size) {
             return false;
