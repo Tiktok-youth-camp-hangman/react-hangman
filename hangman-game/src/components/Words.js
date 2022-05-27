@@ -1,6 +1,7 @@
 var programming_languages = [
-    "xiaodong",
-    "java"
+    "python",
+    "java",
+    "javascript"
 ]
 
 function randomWord() {
