@@ -10,7 +10,6 @@ import Keyboard from './components/Keyboard';
 
 function App() {
   const words = Animals;
-  console.log(words)
   const word = words[0];
   console.log(word)
   const letters = word.split("");
@@ -54,7 +53,13 @@ function App() {
   const [wrongLetters, setWrongLetters] =
     useState([])
   
-  const [figure, setFigure] = useState('figure')
+  const defaultVisibilities = Array(7).fill('hidden')
+  const [visibilities, setVisibilities] = useState(defaultVisibilities)
+
+
+  // for(let i = wrongLetters.length; i < hangman.length; i++ ) {
+  //   hangman[i].style.visibility = "hidden";
+  // }
 
   const [hasStarted, setHasStarted] = useState(false)
 
@@ -63,6 +68,14 @@ function App() {
     setHasStarted(true)
   }
 
+  var stand = document.getElementById('stand');
+  var head = document.getElementById('head');//mans face
+  var body = document.getElementById('body');//mans spine
+  var leftHand = document.getElementById('leftHand');
+  var rightHand = document.getElementById('rightHand');
+  var leftLeg = document.getElementById('leftLeg');
+  var rightLeg = document.getElementById('rightLeg');
+  var hangman = [stand, head, body, leftHand, rightHand, leftLeg, rightLeg];
 
   const handleKeyboard = (e) => {
     let letter = e.target.value;
@@ -79,11 +92,10 @@ function App() {
       setWrongLetters(
         (prevArr) => [...prevArr, letter]
       );
+      setVisibilities(
+        (prevArr) => ({...prevArr, [wrongLetters.length]: "visible"})
+      )
     }
-
-    // if (wrongLetters.includes(letter)) {
-    //   e.target.disabled = true;
-    // }
   }
 
   return (
@@ -97,7 +109,7 @@ function App() {
         correctLetters={correctLetters}
       />
       <WrongLetters wrongLetters={wrongLetters} />
-      <Figure figure={figure} />
+      <Figure visibility={ visibilities }/>
     </div>
     
   );
