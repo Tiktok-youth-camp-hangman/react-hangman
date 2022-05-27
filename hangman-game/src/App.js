@@ -5,9 +5,14 @@ import WordHolder from './components/WordHolder';
 import WrongLetters from './components/WrongLetters';
 import Button from '@mui/material/Button'
 import TextField from "@mui/material/TextField";
+import Animals from "./words/Animals"
+import Keyboard from './components/Keyboard';
 
 function App() {
-  const word = "serendipity";
+  const words = Animals;
+  console.log(words)
+  const word = words[0];
+  console.log(word)
   const letters = word.split("");
 
   const defaultFormValue = "";
@@ -43,6 +48,21 @@ function App() {
   const [correctLetters, setCorrectLetters] =
     useState([]);
 
+  
+  const [wordHolder, setWordHolder] = useState(null)
+
+  const [wrongLetters, setWrongLetters] =
+    useState([])
+  
+  const [stand, setStand] = useState(null)
+
+  const [hasStarted, setHasStarted] = useState(false)
+
+  const handleClick = () => {
+    setWordHolder(letters)
+    setHasStarted(true)
+  }
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -80,18 +100,27 @@ function App() {
     }
   }
 
-  const [wordHolder, setWordHolder] = useState(null)
 
-  const [wrongLetters, setWrongLetters] =
-    useState([])
-  
-  const [stand, setStand] = useState(null)
+  const handleKeyboard = (e) => {
+    let letter = e.target.value;
+    
+    setGuessedLetters(
+      (prevArr) => [...prevArr, letter]
+    );
 
-  const [hasStarted, setHasStarted] = useState(false)
+    if (letters.includes(letter)) {
+      setCorrectLetters(
+        (prevArr) => [...prevArr, letter]
+      )
+    } else {
+      setWrongLetters(
+        (prevArr) => [...prevArr, letter]
+      );
+    }
 
-  const handleClick = () => {
-    setWordHolder(letters)
-    setHasStarted(true)
+    // if (wrongLetters.includes(letter)) {
+    //   e.target.disabled = true;
+    // }
   }
 
   return (
@@ -107,7 +136,7 @@ function App() {
           justifyContent: "center"
         }}
       >
-        <TextField
+        {/* <TextField
           disabled={!hasStarted}
           error={formState.error}
           helperText={formState.helperText}
@@ -116,14 +145,16 @@ function App() {
           type="text"
           value={formValue}
           onChange={handleInputChange}
-        />
-        <Button
+        /> */}
+        {/* <Button
           type="submit"
           disabled={formState.error || !hasStarted}
         >
           Guess
-        </Button>
+        </Button> */}
       </form>
+
+      <Keyboard handleGuess={handleKeyboard} />
 
       <WordHolder
         letters={wordHolder}
