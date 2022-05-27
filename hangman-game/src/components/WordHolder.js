@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 
 const WordHolder = ({ letters, correctLetters }) => {
     if (letters === null) return (<div></div>);
-    //const newLetter = correctLetters[correctLetters.length - 1];
     return (
         <Box
             style={{

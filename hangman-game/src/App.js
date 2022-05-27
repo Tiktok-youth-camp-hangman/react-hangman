@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Figure from './components/Figure';
 import WordHolder from './components/WordHolder';
@@ -7,39 +7,22 @@ import Button from '@mui/material/Button'
 import TextField from "@mui/material/TextField";
 import Animals from "./words/Animals"
 import Keyboard from './components/Keyboard';
+import EndgameMsg from './components/EndgameMsg';
 
 function App() {
+  const PRESTART = "prestart";
+  const START = "start";
+  const WIN = "win";
+  const LOSE = "lose";
+
   const words = Animals;
-  const word = words[0];
-  console.log(word)
-  const letters = word.split("");
+  const word = words[1];
+  const letters = word.split('');
 
-  const defaultFormValue = "";
+  const maxWrong = 7;
+  const [mistakes, setMistakes] = useState(0);
 
-  const [formValue, setFormValue] = useState(defaultFormValue)
-
-  const defaultFormState = {
-    error: false,
-    helperText: null
-  }
-
-  const [formState, setFormState] = useState(defaultFormState)
-
-  function isLetter(input) {
-    return input.length === 1 && input.match(/[a-z]/i);
-  }
-
-  const handleInputChange = (e) => {
-    const input = e.target.value
-    setFormValue(input)
-    setFormState(defaultFormState)
-    if (!isLetter(input)) {
-      setFormState({
-        error: true,
-        helperText: "Key in a letter!"
-      })
-    }
-  }
+  const [gameState, setGameState] = useState(PRESTART)
 
   const [guessedLetters, setGuessedLetters] =
     useState([]);
@@ -56,26 +39,21 @@ function App() {
   const defaultVisibilities = Array(7).fill('hidden')
   const [visibilities, setVisibilities] = useState(defaultVisibilities)
 
-
-  // for(let i = wrongLetters.length; i < hangman.length; i++ ) {
-  //   hangman[i].style.visibility = "hidden";
-  // }
-
-  const [hasStarted, setHasStarted] = useState(false)
+  const [gameResult, setGameResult] = useState(null);
 
   const handleClick = () => {
-    setWordHolder(letters)
-    setHasStarted(true)
+    setWordHolder(letters);
+    setGameState(START);
   }
 
-  var stand = document.getElementById('stand');
-  var head = document.getElementById('head');//mans face
-  var body = document.getElementById('body');//mans spine
-  var leftHand = document.getElementById('leftHand');
-  var rightHand = document.getElementById('rightHand');
-  var leftLeg = document.getElementById('leftLeg');
-  var rightLeg = document.getElementById('rightLeg');
-  var hangman = [stand, head, body, leftHand, rightHand, leftLeg, rightLeg];
+  // var stand = document.getElementById('stand');
+  // var head = document.getElementById('head');//mans face
+  // var body = document.getElementById('body');//mans spine
+  // var leftHand = document.getElementById('leftHand');
+  // var rightHand = document.getElementById('rightHand');
+  // var leftLeg = document.getElementById('leftLeg');
+  // var rightLeg = document.getElementById('rightLeg');
+  // var hangman = [stand, head, body, leftHand, rightHand, leftLeg, rightLeg];
 
   const handleKeyboard = (e) => {
     let letter = e.target.value;
@@ -87,32 +65,61 @@ function App() {
     if (letters.includes(letter)) {
       setCorrectLetters(
         (prevArr) => [...prevArr, letter]
-      )
+      );
     } else {
       setWrongLetters(
         (prevArr) => [...prevArr, letter]
       );
       setVisibilities(
-        (prevArr) => ({...prevArr, [wrongLetters.length]: "visible"})
-      )
+        (prevArr) => ({ ...prevArr, [wrongLetters.length]: "visible" })
+      );
+      setMistakes(prevCount => prevCount + 1);
+      if (wrongLetters.length+1 === maxWrong) {
+        setGameResult(LOSE);
+      }
     }
   }
 
-  return (
-    <div>
-      <Header handleClick={() => handleClick()} />
+  const handleRestart = () => {
+    setGameState(PRESTART);
+    setMistakes(0);
+    setGuessedLetters([]);
+    setWrongLetters([]);
+    setCorrectLetters([]);
+    setVisibilities(defaultVisibilities);
+  }
 
-      <Keyboard handleGuess={handleKeyboard} guessedLetters={guessedLetters} />
-
-      <WordHolder
-        letters={wordHolder}
-        correctLetters={correctLetters}
-      />
-      <WrongLetters wrongLetters={wrongLetters} />
-      <Figure visibility={ visibilities }/>
-    </div>
+  switch (gameState) {
+    case PRESTART:
+      return (<Header handleClick={() => handleClick()} />)
     
-  );
+    case START:
+      return (
+        <div>
+          <Keyboard handleGuess={handleKeyboard} guessedLetters={guessedLetters} />
+
+          <WordHolder
+            letters={wordHolder}
+            correctLetters={correctLetters}
+          />
+          
+          <Figure visibility={visibilities} />
+          
+          <WrongLetters wrongLetters={wrongLetters} />
+
+          <EndgameMsg
+            letters={letters}
+            correctLetters={correctLetters}
+            gameResult={gameResult}
+            setGameResult={setGameResult}
+            WIN={WIN}
+            handleRestart={handleRestart}
+          />
+        </div>
+      );
+    default:
+      return console.error('there is an error');
+  }
 }
 
 export default App;
