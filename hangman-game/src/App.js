@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
-import Stand from './components/Stand';
+import Figure from './components/Figure';
 import WordHolder from './components/WordHolder';
 import WrongLetters from './components/WrongLetters';
 import Button from '@mui/material/Button'
@@ -54,50 +54,13 @@ function App() {
   const [wrongLetters, setWrongLetters] =
     useState([])
   
-  const [stand, setStand] = useState(null)
+  const [figure, setFigure] = useState('figure')
 
   const [hasStarted, setHasStarted] = useState(false)
 
   const handleClick = () => {
     setWordHolder(letters)
     setHasStarted(true)
-  }
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    setFormValue("");
-    document.getElementById("guess-input").focus();
-
-    if (!isLetter(formValue)) {
-      setFormState({
-        error: true,
-        helperText: "Key in a letter!"
-      });
-      return;
-    }
-
-    if (guessedLetters.includes(formValue)) {
-      setFormState({
-        error: true,
-        helperText: "Already guessed " + formValue
-      });
-      return;
-    }
-
-    setGuessedLetters(
-      (prevArr) => [...prevArr, formValue]
-    );
-
-    if (letters.includes(formValue)) {
-      setCorrectLetters(
-        (prevArr) => [...prevArr, formValue]
-      )
-    } else {
-      setWrongLetters(
-        (prevArr) => [...prevArr, formValue]
-      );
-    }
   }
 
 
@@ -127,41 +90,14 @@ function App() {
     <div>
       <Header handleClick={() => handleClick()} />
 
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          marginBottom: "20px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        {/* <TextField
-          disabled={!hasStarted}
-          error={formState.error}
-          helperText={formState.helperText}
-          id="guess-input"
-          label="Input your guess here"
-          type="text"
-          value={formValue}
-          onChange={handleInputChange}
-        /> */}
-        {/* <Button
-          type="submit"
-          disabled={formState.error || !hasStarted}
-        >
-          Guess
-        </Button> */}
-      </form>
-
-      <Keyboard handleGuess={handleKeyboard} />
+      <Keyboard handleGuess={handleKeyboard} guessedLetters={guessedLetters} />
 
       <WordHolder
         letters={wordHolder}
         correctLetters={correctLetters}
       />
       <WrongLetters wrongLetters={wrongLetters} />
-      <Stand stand={stand} />
+      <Figure figure={figure} />
     </div>
     
   );
