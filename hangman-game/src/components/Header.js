@@ -1,5 +1,6 @@
 import React from 'react'
 import Box from "@mui/material/Box"
+import '../App.css'
 
 const Header = () => {
   return (
@@ -11,9 +12,10 @@ const Header = () => {
               alignItems: "center",
               marginBottom: "20px"
           }}
+          className="header"
       >
-          <h1>Welcom to Hangman</h1>
-          <p>Are you ready to be hung?</p>
+          <h1>Welcome to Hangman</h1>
+          <h3>Are you ready?</h3>
       </Box>
   )
 }

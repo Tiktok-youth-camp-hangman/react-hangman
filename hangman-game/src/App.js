@@ -10,6 +10,8 @@ import Foods from "./words/Foods"
 import RandomWords from "./words/RandomWords"
 import Keyboard from './components/Keyboard';
 import EndgameMsg from './components/EndgameMsg';
+import CategoryButtons from './components/CategoryButtons';
+import './App.css'
 
 function App() {
   const PRESTART = "prestart";
@@ -76,15 +78,6 @@ function App() {
 
   const [gameResult, setGameResult] = useState(null);
 
-  // var stand = document.getElementById('stand');
-  // var head = document.getElementById('head');//mans face
-  // var body = document.getElementById('body');//mans spine
-  // var leftHand = document.getElementById('leftHand');
-  // var rightHand = document.getElementById('rightHand');
-  // var leftLeg = document.getElementById('leftLeg');
-  // var rightLeg = document.getElementById('rightLeg');
-  // var hangman = [stand, head, body, leftHand, rightHand, leftLeg, rightLeg];
-
   const handleKeyboard = (e) => {
     let letter = e.target.value;
     
@@ -112,6 +105,7 @@ function App() {
 
   const handleRestart = () => {
     setGameState(PRESTART);
+    setGameResult(null);
     setMistakes(0);
     setGuessedLetters([]);
     setWrongLetters([]);
@@ -122,38 +116,61 @@ function App() {
   switch (gameState) {
     case PRESTART:
       return (
-        <div>
+        <div style={{
+          justifyContent: "center",
+          dispaly: "flex",
+          alignItems: "center",
+          flexDirection: "column"
+        }}>
           <Header />
-          <Button onClick={() => handleClick(ANIMAL)}>Animal</Button>
-          <Button onClick={() => handleClick(FOOD)}>Food</Button>
-          <Button onClick={() => handleClick(RANDOM)}>Random</Button>
+          <CategoryButtons
+            handleClick={handleClick}
+            ANIMAL={ANIMAL}
+            FOOD={FOOD}
+            RANDOM={RANDOM}
+          />
         </div>
         
       )
     
     case START:
       return (
-        <div>
-          <Keyboard handleGuess={handleKeyboard} guessedLetters={guessedLetters} />
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          <div style={{display: "flex", flexDirection: "row"}}>
+            <div className="left-wrapper">
+              <Keyboard handleGuess={handleKeyboard} guessedLetters={guessedLetters} />
 
-          <WordHolder
-            word={word}
-            letters={wordHolder}
-            correctLetters={correctLetters}
-          />
-          
-          <Figure visibility={visibilities} />
-          
-          <WrongLetters wrongLetters={wrongLetters} />
+              <WordHolder
+                word={word}
+                letters={wordHolder}
+                correctLetters={correctLetters}
+              />
+            </div>
+            <div className="right-wrapper">
+              <Figure visibility={visibilities} />
 
-          <EndgameMsg
-            letters={letters}
-            correctLetters={correctLetters}
-            gameResult={gameResult}
-            setGameResult={setGameResult}
-            WIN={WIN}
-            handleRestart={handleRestart}
-          />
+              <WrongLetters wrongLetters={wrongLetters} />
+            </div>
+          </div>
+          <div style={{
+            justifyContent: "center",
+            diplay: "flex",
+            alignItems: "center"
+          }}>
+            <EndgameMsg
+              letters={letters}
+              correctLetters={correctLetters}
+              gameResult={gameResult}
+              setGameResult={setGameResult}
+              WIN={WIN}
+              handleRestart={handleRestart}
+            />
+          </div>
         </div>
       );
     default:

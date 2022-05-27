@@ -16,7 +16,6 @@ const EndgameMsg = ({ letters, correctLetters, gameResult, setGameResult, WIN, h
     }
     const correctAns = new Set(letters);
     const providedAns = new Set(correctLetters);
-    console.log(correctAns, providedAns);
 
     if (setsAreEqual(correctAns, providedAns)) setGameResult(WIN);
 
@@ -27,14 +26,14 @@ const EndgameMsg = ({ letters, correctLetters, gameResult, setGameResult, WIN, h
 
     if (gameResult === WIN)
     return (
-        <div>
+        <div className= "endgame-msg">
             <div>{winMsg}</div>
             <RestartButton handleRestart={handleRestart} />
         </div>
     )
 
     return (
-        <div>
+        <div className= "endgame-msg">
             <div>{loseMsg}</div>
             <RestartButton handleRestart={handleRestart} />
         </div>

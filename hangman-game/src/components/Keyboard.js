@@ -1,5 +1,4 @@
 import React from 'react'
-import App from '../App';
 import '../App.css';
 
 const Keyboard = ({handleGuess, guessedLetters}) => {
@@ -16,7 +15,7 @@ const Keyboard = ({handleGuess, guessedLetters}) => {
                     {letter}
                 </button>
             )))
-            }</div>
+        }</div>
     )
 }
 

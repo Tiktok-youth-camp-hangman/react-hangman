@@ -1,7 +1,8 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 
-const WrongLetters = ({wrongLetters}) => {
+const WrongLetters = ({ wrongLetters }) => {
+  if (wrongLetters.length === 0) return;
   return (
     <Box
       style={{
