@@ -1,38 +1,58 @@
-.App {
+.header {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.keyboard-button {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
   text-align: center;
+  padding: 3px 2px;
+  height: 50px;
+  width: 50px;
+  margin: 4px;
+  letter-spacing: 0.5px;
+  color: #3a3a3a;
+  background-color: #f7f7f7;
+  flex: 1;
+  box-shadow: 
+        inset 0 -2px 0 #aaaaaa,
+    inset 0px 1px 1px -1px #fff,
+        0px 1px 1px 0px #7a7a7a;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  user-select: none;
+  transition:
+    transform 0.08s ease,
+    background-color 0.08s ease,
+    box-shadow 0.08s ease;
+  cursor: pointer;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.keyboard-button:hover {
+  background-color: #fbfbfb;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.keyboard-button:active {
+  transform: translateY(1.5px);
+  box-shadow: 
+      inset 0 -0.5px 0 #aaaaaa,
+  inset 0px -1px 1px -1px #fff,
+        0px 0.5px 0.75px 0px #999;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.category-button {
+  margin-left: "20px";
+  margin-right: "20px";
+}
+
+.endgame-msg {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
